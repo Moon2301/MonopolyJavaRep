@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bàn cờ — Cờ tỷ phú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/game-board.css">
+    <link rel="stylesheet" href="/character/character.css">
+</head>
+<body>
+<button type="button" id="surrenderButton" class="surrender-top-btn" hidden aria-label="Đầu hàng">Đầu hàng</button>
+<div id="gameEndRankingOverlay" class="game-end-ranking-overlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="gameEndRankingTitle">
+    <div class="game-end-ranking-panel glass-panel">
+        <h2 id="gameEndRankingTitle" class="game-end-ranking-title">Kết thúc ván</h2>
+        <p class="game-end-ranking-sub">Xếp hạng theo thứ tự bị loại · Top 1 to nhất</p>
+        <div id="gameEndRankingList" class="game-end-ranking-podium" role="list"></div>
+        <div class="game-end-ranking-actions">
+            <button type="button" id="gameEndRankingPlayAgain" class="action-button primary game-end-ranking-btn-play">Chơi lại</button>
+            <button type="button" id="gameEndRankingExitHome" class="action-button game-end-ranking-btn-exit">Thoát</button>
+        </div>
+    </div>
+</div>
+<div id="skillTargetBanner" class="skill-target-banner glass-panel" hidden role="status" aria-live="polite">Chọn một ô trên bàn làm mục tiêu kỹ năng (bấm ô đất).</div>
+<div id="surrenderConfirmModal" class="surrender-confirm-overlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="surrenderConfirmTitle">
+    <div class="surrender-confirm-panel glass-panel">
+        <h2 id="surrenderConfirmTitle" class="surrender-confirm-title">Đầu hàng?</h2>
+        <p id="surrenderConfirmText" class="surrender-confirm-text">Bạn sẽ bị loại khỏi ván. Ô đang sở hữu trả về thị trường (không còn chủ). Nếu đang nợ tiền thuê, tài sản và tiền mặt sẽ chuyển cho chủ nợ như khi phá sản.</p>
+        <div class="surrender-confirm-actions">
+            <button type="button" id="surrenderCancelButton" class="action-button">Hủy</button>
+            <button type="button" id="surrenderConfirmButton" class="action-button surrender-confirm-btn--danger">Đầu hàng</button>
+        </div>
+    </div>
+</div>
+<div id="duelDiceModal" class="surrender-confirm-overlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="duelDiceTitle">
+    <div class="surrender-confirm-panel glass-panel">
+        <h2 id="duelDiceTitle" class="surrender-confirm-title">Thần xúc xắc</h2>
+        <p class="surrender-confirm-text">Chọn mặt từng viên (1–6), sau đó bấm Tung — hệ thống sẽ di chuyển theo tổng hai xúc xắc.</p>
+        <div class="duel-dice-picks">
+            <label class="duel-dice-label">Xúc xắc 1
+                <select id="duelDiceSelect1" class="duel-dice-select" aria-label="Giá trị xúc xắc 1"></select>
+            </label>
+            <label class="duel-dice-label">Xúc xắc 2
+                <select id="duelDiceSelect2" class="duel-dice-select" aria-label="Giá trị xúc xắc 2"></select>
+            </label>
+        </div>
+        <div class="surrender-confirm-actions">
+            <button type="button" id="duelDiceCancelButton" class="action-button">Hủy</button>
+            <button type="button" id="duelDiceOkButton" class="action-button primary">Tung</button>
+        </div>
+    </div>
+</div>
+<div id="yourTurnToast" class="your-turn-toast" role="status" aria-live="polite" aria-hidden="true" hidden>
+    <div class="your-turn-toast-inner glass-panel">
+        <span class="your-turn-toast-icon" aria-hidden="true">🎲</span>
+        <div class="your-turn-toast-text">
+            <strong>Đến lượt bạn!</strong>
+            <small>Tung xúc xắc để di chuyển</small>
+        </div>
+    </div>
+</div>
+<div class="turn-top-banner glass-panel" id="turnTopBanner" role="status" aria-live="polite">
+    <div class="turn-top-banner-inner">
+        <div class="turn-top-line">
+            <span class="turn-top-eyebrow">Lượt hiện tại</span>
+            <strong id="turnBannerCurrent">—</strong>
+        </div>
+        <div class="turn-top-line turn-top-next">
+            <span class="turn-top-eyebrow">Lượt kế tiếp</span>
+            <strong id="turnBannerNext">—</strong>
+        </div>
+        <div class="turn-top-line turn-top-timer" aria-live="polite" hidden>
+            <span class="turn-top-eyebrow">Thời gian lượt</span>
+            <strong id="turnTimerLabel" class="turn-timer turn-timer--banner"></strong>
+        </div>
+    </div>
+</div>
+<div id="debtCrisisModal" class="debt-crisis-dock" hidden aria-hidden="true" role="region" aria-live="polite" aria-labelledby="debtCrisisTitle">
+    <div class="debt-crisis-panel glass-panel">
+        <h2 id="debtCrisisTitle" class="debt-crisis-title">Không đủ tiền trả thuê</h2>
+        <p id="debtCrisisSummary" class="debt-crisis-summary"></p>
+        <p class="debt-crisis-hint">Chọn bán nhà / thế chấp ô hoặc phá sản (nhường tài sản cho chủ nợ).</p>
+        <ul id="debtAssetList" class="debt-asset-list"></ul>
+        <div class="debt-crisis-actions">
+            <button type="button" id="debtBankruptButton" class="action-button debt-btn-bankrupt">Phá sản (thua)</button>
+        </div>
+    </div>
+</div>
+<main class="game-container">
+    <canvas id="coinCanvas" class="coin-fx-canvas" aria-hidden="true" width="400" height="400"></canvas>
+    <div class="side-rail side-rail--left">
+        <article class="player-info player-info--rail glass-panel" id="playerCard1"></article>
+        <article class="player-info player-info--rail glass-panel" id="playerCard3"></article>
+        <aside class="left-panel glass-panel">
+            <div class="panel-header">
+                <p class="eyebrow">Trò chuyện</p>
+                <h1>Bàn trò chuyện</h1>
+            </div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <form id="chatForm" class="chat-form">
+                <input id="chatInput" type="text" placeholder="Nhập tin nhắn…" autocomplete="off">
+                <button type="submit">Gửi</button>
+            </form>
+        </aside>
+    </div>
+
+    <section class="board-container">
+        <div class="board-stage">
+            <div id="moneyFxLayer" class="money-fx-layer" aria-hidden="true"></div>
+            <div id="monopolyBoard" class="monopoly-board">
+                <div id="playerTokens" class="player-tokens"></div>
+            </div>
+
+            <div class="board-center">
+                <div id="diceArea" class="dice-area">
+                    <div class="dice-label">Xúc xắc</div>
+                    <div class="dice-cubes">
+                        <div id="die1" class="die die-3d" data-face="1" aria-label="Xúc xắc 1">
+                            <div class="die-pip-root" aria-hidden="true"></div>
+                        </div>
+                        <div id="die2" class="die die-3d" data-face="1" aria-label="Xúc xắc 2">
+                            <div class="die-pip-root" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    <div id="diceTotal" class="dice-total">Tổng: 8</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="side-rail side-rail--right">
+        <article class="player-info player-info--rail glass-panel" id="playerCard2"></article>
+        <article class="player-info player-info--rail glass-panel" id="playerCard4"></article>
+        <aside class="cell-info-panel glass-panel">
+            <strong id="currentCellName" class="cell-info-name">-</strong>
+            <div class="cell-info-sections cell-info-sections--panel">
+                <div class="cell-info-section">
+                    <span class="cell-info-section__label">Thuê &amp; giá</span>
+                    <p class="cell-info-section__value cell-info-rent" id="currentCellRent">-</p>
+                    <p class="cell-info-section__value cell-info-price-line" id="currentCellPriceTax">-</p>
+                </div>
+                <div class="cell-info-section">
+                    <span class="cell-info-section__label">Cấp &amp; chi phí lên cấp kế</span>
+                    <p class="cell-info-section__value" id="currentCellUpgrade">-</p>
+                </div>
+                <div class="cell-info-section">
+                    <span class="cell-info-section__label">Chủ sở hữu</span>
+                    <p class="cell-info-section__value" id="currentCellOwnerBlock">-</p>
+                </div>
+            </div>
+        </aside>
+        <aside class="right-panel glass-panel">
+            <div class="panel-header">
+                <p class="eyebrow">Hành động</p>
+                <h2>Điều khiển</h2>
+            </div>
+            <div class="action-stack">
+                <button id="rollDiceButton" type="button" class="action-button primary">Tung xúc xắc</button>
+                <button id="endTurnButton" type="button" class="action-button">Kết thúc lượt</button>
+                <button id="buyPropertyButton" type="button" class="action-button">Mua đất</button>
+                <button id="upgradePropertyButton" type="button" class="action-button">Nâng cấp</button>
+                <button id="payOppRentButton" type="button" class="action-button" hidden>Trả tiền thuê</button>
+                <button id="buybackOppButton" type="button" class="action-button primary" hidden>Mua lại đất (130%)</button>
+            </div>
+            <p id="gameActionStatus" class="turn-label" style="margin:8px 0 0;">&nbsp;</p>
+        </aside>
+    </div>
+</main>
+<script src="/js/hero-system.js"></script>
+<script src="/character/coin-system.js"></script>
+<script src="/js/game-board.js"></script>
+</body>
+</html>

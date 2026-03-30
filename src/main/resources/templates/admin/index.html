@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monopoly - Bảng Điều Khiển Quản Trị</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .sidebar-item.active {
+            background-color: #f1f5f9;
+            color: #10b981; /* Green accent */
+            border-right: 4px solid #10b981;
+        }
+        .clean-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background-color: #f9fafb;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+        }
+        .clean-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .modal {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+        }
+        .clean-table {
+            table-layout: fixed;
+        }
+        .clean-table td, .clean-table th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+    <div class="p-6 border-b border-gray-200 flex items-center gap-3">
+        <i class="ph ph-shield-check text-2xl text-green-600"></i>
+        <span class="font-black text-xl tracking-tight">QUẢN TRỊ</span>
+    </div>
+
+    <nav class="flex-grow py-6 overflow-y-auto">
+        <button onclick="showTab('dashboard')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 active transition-all" data-tab="dashboard">
+            <i class="ph ph-chart-pie text-xl"></i> Tổng Quan
+        </button>
+        <button onclick="showTab('accounts')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 transition-all" data-tab="accounts">
+            <i class="ph ph-users text-xl"></i> Tài Khoản
+        </button>
+        <button onclick="showTab('heroes')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 transition-all" data-tab="heroes">
+            <i class="ph ph-sword text-xl"></i> Tướng
+        </button>
+        <button onclick="showTab('skills')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 transition-all" data-tab="skills">
+            <i class="ph ph-lightning text-xl"></i> Kỹ Năng
+        </button>
+        <button onclick="showTab('maps')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 transition-all" data-tab="maps">
+            <i class="ph ph-map-trifold text-xl"></i> Bản Đồ
+        </button>
+        <button onclick="showTab('boardCells')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 transition-all" data-tab="boardCells">
+            <i class="ph ph-grid-four text-xl"></i> Ô Bàn Cờ
+        </button>
+        <button onclick="showTab('games')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 transition-all" data-tab="games">
+            <i class="ph ph-game-controller text-xl"></i> Ván Chơi
+        </button>
+        <button onclick="showTab('userProfiles')" class="sidebar-item w-full flex items-center gap-3 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50 transition-all" data-tab="userProfiles">
+            <i class="ph ph-users-four text-xl"></i> Hồ Sơ
+        </button>
+
+    </nav>
+
+    <div class="p-6 border-t border-gray-200">
+        <button id="logoutBtn" class="flex items-center gap-2 text-red-600 font-bold text-sm hover:underline">
+            <i class="ph ph-sign-out"></i> Đăng Xuất
+        </button>
+    </div>
+</aside>
+
+<div class="flex-grow flex flex-col overflow-hidden">
+    <header class="bg-white border-b border-gray-200 h-20 flex items-center justify-between px-10">
+        <h2 id="tabTitle" class="text-2xl font-extrabold text-gray-900 tracking-tight">Tổng Quan Hệ Thống</h2>
+        <div class="flex items-center gap-4">
+            <span id="adminEmail" class="text-sm font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Quản trị viên</span>
+        </div>
+    </header>
+
+    <main class="flex-grow p-10 overflow-y-auto">
+
+        <div id="tab-dashboard" class="tab-content space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                    <div class="text-sm font-bold text-gray-400 mb-1">Tổng Tài Khoản</div>
+                    <div id="stat-users" class="text-4xl font-black text-gray-900">—</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                    <div class="text-sm font-bold text-gray-400 mb-1">Ván chờ / đang chơi</div>
+                    <div id="stat-games" class="text-4xl font-black text-gray-900">—</div>
+                </div>
+            </div>
+
+            <section class="space-y-4">
+                <h3 class="text-lg font-extrabold text-gray-900 flex items-center gap-2">
+                    <i class="ph ph-currency-circle-dollar text-emerald-600 text-xl"></i>
+                    Doanh thu nạp tiền (VNPay)
+                </h3>
+                <p class="text-sm text-gray-500 -mt-2">Quy ước: mỗi giao dịch ghi <strong>Xu Vàng</strong> trong ledger; doanh thu VNĐ = tổng Xu nạp × 100 (đồng bộ với cổng thanh toán).</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm border-t-4 border-t-emerald-500">
+                        <div class="text-sm font-bold text-gray-400 mb-1">Tổng doanh thu (mọi thời điểm)</div>
+                        <div id="stat-topup-total" class="text-2xl md:text-3xl font-black text-gray-900 break-all">—</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm border-t-4 border-t-sky-500">
+                        <div class="text-sm font-bold text-gray-400 mb-1">Hôm nay (GMT+7)</div>
+                        <div id="stat-topup-today" class="text-2xl md:text-3xl font-black text-gray-900 break-all">—</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm border-t-4 border-t-amber-500">
+                        <div class="text-sm font-bold text-gray-400 mb-1">Tháng này</div>
+                        <div id="stat-topup-month" class="text-2xl md:text-3xl font-black text-gray-900 break-all">—</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm border-t-4 border-t-violet-500">
+                        <div class="text-sm font-bold text-gray-400 mb-1">Số giao dịch nạp</div>
+                        <div id="stat-topup-count" class="text-2xl md:text-3xl font-black text-gray-900">—</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 font-extrabold text-gray-900">Giao dịch nạp gần đây</div>
+                <div class="overflow-x-auto">
+                    <table class="w-full clean-table min-w-[720px]">
+                        <thead>
+                        <tr>
+                            <th class="w-[100px]">Mã ledger</th>
+                            <th class="w-[120px]">Thời gian</th>
+                            <th class="w-[100px]">Hồ sơ</th>
+                            <th class="w-[120px]">VNPAY ref</th>
+                            <th class="w-[100px]">Xu cộng</th>
+                            <th class="w-[120px]">Quy VNĐ</th>
+                        </tr>
+                        </thead>
+                        <tbody id="topup-recent-body">
+                        <tr><td colspan="6" class="text-center py-8 text-gray-400">Đang tải…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+
+        <div id="tab-crud" class="tab-content hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <div class="text-gray-500 text-sm font-medium"><span id="itemCount">0</span> Tổng số mặt hàng</div>
+                <button id="addBtn" class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-sm hover:bg-green-700 transition-all flex items-center gap-2">
+                    <i class="ph ph-plus"></i> Thêm
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <table class="w-full clean-table">
+                    <thead id="tableHead"></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<div id="modal" class="modal fixed inset-0 z-[60] flex items-center justify-center hidden">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-8 relative">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
+            <i class="ph ph-x text-2xl"></i>
+        </button>
+        <h3 id="modalTitle" class="text-xl font-black text-gray-900 mb-6">Sửa</h3>
+        <form id="crudForm" class="space-y-4">
+            <div id="formFields" class="space-y-4 max-h-[60vh] overflow-y-auto px-1">
+            </div>
+            <div class="pt-6 flex gap-3">
+                <button type="submit" class="flex-grow bg-green-600 text-white py-3 rounded-xl font-bold shadow-md hover:bg-green-700 transition-all">
+                    Lưu
+                </button>
+                <button type="button" onclick="closeModal()" class="flex-grow bg-gray-100 text-gray-600 py-3 rounded-xl font-bold hover:bg-gray-200 transition-all">
+                    Hủy
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const API_URLS = {
+        accounts: '/api/admin/accounts',
+        heroes: '/api/admin/heroes',
+        skills: '/api/admin/skills',
+        maps: '/api/admin/maps',
+        boardCells: '/api/board-cells',
+        cards: '/api/admin/cards',
+        games: '/api/admin/games',
+        gamePlayers: '/api/admin/gamePlayers',
+        userProfiles: '/api/admin/userProfiles'
+
+    };
+
+    const COLUMN_DEFS = {
+        accounts: [
+            { key: 'accountId', label: 'Mã tài khoản' },
+            { key: 'email', label: 'Email', type: 'text' },
+            { key: 'passwordHash', label: 'Mật khẩu', type: 'password' },
+            { key: 'role', label: 'Vai trò', type: 'select', options: ['USER', 'ADMIN'] },
+            { key: 'status', label: 'Trạng thái', type: 'select', options: ['ACTIVE', 'DISABLED'] }
+        ],
+        heroes: [
+            { key: 'characterId', label: 'ID tướng' },
+            { key: 'name', label: 'Tên tướng', type: 'text' },
+            { key: 'rarity', label: 'Độ hiếm', type: 'text' },
+            { key: 'baseHp', label: 'Máu cơ bản', type: 'number' },
+            { key: 'isActive', label: 'Kích hoạt', type: 'checkbox' }
+        ],
+        skills: [
+            { key: 'skillId', label: 'ID kỹ năng' },
+            { key: 'name', label: 'Tên kỹ năng', type: 'text' },
+            { key: 'triggerType', label: 'Kiểu kích hoạt', type: 'text' },
+            { key: 'effectType', label: 'Loại hiệu ứng', type: 'text' }
+        ],
+        maps: [
+            { key: 'mapId', label: 'ID bản đồ' },
+            { key: 'name', label: 'Tên bản đồ', type: 'text' },
+            { key: 'maxLaps', label: 'Số vòng', type: 'number' }
+        ],
+        boardCells: [
+    { key: 'cellId', label: 'Mã ô bàn cờ' },
+    { key: 'name', label: 'Tên ô', type: 'text' },
+    { key: 'type', label: 'Loại ô', type: 'text' },
+    { key: 'price', label: 'Giá mua', type: 'number' },
+    { key: 'baseRent', label: 'Tiền thuê cơ bản', type: 'number' },
+    { key: 'maxHouseLevel', label: 'Cấp nhà tối đa', type: 'number' }
+],
+        cards: [
+            { key: 'cardId', label: 'ID thẻ' },
+            { key: 'name', label: 'Tên thẻ', type: 'text' },
+            { key: 'effectType', label: 'Loại hiệu ứng', type: 'text' }
+        ],
+        games: [
+            { key: 'gameId', label: 'Mã ván chơi' },
+            { key: 'mapId', label: 'Mã bản đồ' },
+            { key: 'createdBy', label: 'Người tạo' },
+            { key: 'status', label: 'Trạng thái ván' },
+            { key: 'maxPlayers', label: 'Số người chơi tối đa' },
+            { key: 'currentTurn', label: 'Lượt hiện tại' },
+            { key: 'currentPlayerOrder', label: 'Thứ tự người chơi' }
+        ],
+        gamePlayers: [
+            { key: 'gamePlayerId', label: 'Mã người chơi trong ván' },
+            { key: 'gameId', label: 'Mã ván chơi' },
+            { key: 'userProfileId', label: 'Mã hồ sơ người chơi' },
+            { key: 'characterId', label: 'Mã nhân vật' },
+            { key: 'turnOrder', label: 'Thứ tự lượt chơi' },
+            { key: 'balance', label: 'Số dư' },
+            { key: 'position', label: 'Vị trí trên bản đồ' },
+            { key: 'isBankrupt', label: 'Trạng thái phá sản' }
+        ],
+        userProfiles: [
+            { key: 'userProfileId', label: 'Mã hồ sơ' },
+            { key: 'accountId', label: 'Mã tài khoản', type: 'number' },
+            { key: 'username', label: 'Tên người chơi', type: 'text' },
+            { key: 'gold', label: 'Vàng', type: 'number' },
+            { key: 'diamonds', label: 'Kim cương', type: 'number' },
+            { key: 'rankPoints', label: 'Điểm rank', type: 'number' },
+            { key: 'rankTier', label: 'Bậc rank', type: 'text' }
+        ]
+    };
+
+    let currentTab = 'dashboard';
+    const accountId = localStorage.getItem('accountId');
+    const userRole = localStorage.getItem('userRole');
+
+    if (!accountId || userRole !== 'ADMIN') {
+        window.location.replace('/login');
+    }
+
+    const getHeaders = (includeJson = false) => {
+        const headers = { 'X-Account-Id': accountId };
+        if (includeJson) {
+            headers['Content-Type'] = 'application/json';
+        }
+        return headers;
+    };
+
+    // --- HÀM MỚI: Tự động kéo dữ liệu bị lồng ghép ra ngoài ---
+    function normalizeItem(item) {
+        if (!item) return item;
+        // Kéo accountId từ trong object account ra ngoài nếu có
+        if (item.account && item.account.accountId !== undefined) {
+            item.accountId = item.account.accountId;
+        }
+        return item;
+    }
+
+    function showTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.sidebar-item').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+
+        document.getElementById('tabTitle').textContent = tab.charAt(0).toUpperCase() + tab.slice(1);
+
+        if (tab === 'dashboard') {
+            document.getElementById('tab-dashboard').classList.remove('hidden');
+            document.getElementById('tab-crud').classList.add('hidden');
+            loadDashboardStats();
+        } else {
+            document.getElementById('tab-dashboard').classList.add('hidden');
+            document.getElementById('tab-crud').classList.remove('hidden');
+            loadTableData();
+        }
+    }
+
+    const fmtVnd = (n) => (n === null || n === undefined ? '—' : new Intl.NumberFormat('vi-VN').format(Number(n)) + ' ₫');
+    const fmtInt = (n) => (n === null || n === undefined ? '—' : new Intl.NumberFormat('vi-VN').format(Number(n)));
+
+    function fmtDt(iso) {
+        if (!iso) return '—';
+        try {
+            const d = new Date(iso);
+            return d.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', dateStyle: 'short', timeStyle: 'short' });
+        } catch {
+            return iso;
+        }
+    }
+
+    async function loadDashboardStats() {
+        const body = document.getElementById('topup-recent-body');
+        try {
+            const res = await fetch('/api/admin/dashboard', { headers: getHeaders() });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            document.getElementById('stat-users').textContent = fmtInt(data.totalUsers);
+            document.getElementById('stat-games').textContent = fmtInt(data.activeGames);
+            document.getElementById('stat-topup-total').textContent = fmtVnd(data.topupTotalVnd);
+            document.getElementById('stat-topup-today').textContent = fmtVnd(data.topupTodayVnd);
+            document.getElementById('stat-topup-month').textContent = fmtVnd(data.topupMonthVnd);
+            document.getElementById('stat-topup-count').textContent = fmtInt(data.topupTransactionCount);
+
+            const rows = data.recentTopups || [];
+            if (!rows.length) {
+                body.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400 italic">Chưa có giao dịch nạp tiền.</td></tr>';
+            } else {
+                body.innerHTML = rows.map((r) => `
+                    <tr>
+                        <td>${r.ledgerId != null ? fmtInt(r.ledgerId) : '—'}</td>
+                        <td>${fmtDt(r.createdAt)}</td>
+                        <td>${r.userProfileId != null ? fmtInt(r.userProfileId) : '—'}</td>
+                        <td>${r.referenceId != null ? fmtInt(r.referenceId) : '—'}</td>
+                        <td>${r.goldCredited != null ? fmtInt(r.goldCredited) : '—'}</td>
+                        <td>${fmtVnd(r.vndEquivalent)}</td>
+                    </tr>
+                `).join('');
+            }
+        } catch (e) {
+            console.error("Dashboard error", e);
+            document.getElementById('stat-users').textContent = '—';
+            document.getElementById('stat-games').textContent = '—';
+            document.getElementById('stat-topup-total').textContent = '—';
+            document.getElementById('stat-topup-today').textContent = '—';
+            document.getElementById('stat-topup-month').textContent = '—';
+            document.getElementById('stat-topup-count').textContent = '—';
+            body.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-red-500">Không tải được thống kê.</td></tr>';
+        }
+    }
+
+    async function loadTableData() {
+        const container = document.getElementById('tableBody');
+        const head = document.getElementById('tableHead');
+        const defs = COLUMN_DEFS[currentTab];
+
+        head.innerHTML = `<tr>${defs.map(c => `<th>${c.label}</th>`).join('')}<th>Hành Động</th></tr>`;
+        container.innerHTML = '<tr><td colspan="100%" class="text-center py-10">Đang tải...</td></tr>';
+
+        try {
+            const res = await fetch(API_URLS[currentTab], { headers: getHeaders() });
+            let items = await res.json();
+
+            // --- XỬ LÝ DỮ LIỆU Ở ĐÂY ---
+            items = items.map(item => normalizeItem(item));
+
+            document.getElementById('itemCount').textContent = items.length;
+
+            container.innerHTML = items.map(item => `
+                <tr>
+                    ${defs.map(c => {
+                        const val = item[c.key];
+                        // Cải thiện kiểm tra để không bao giờ hiện undefined
+                        return `<td>${(val !== null && val !== undefined) ? val : '-'}</td>`;
+                    }).join('')}
+                    <td>
+                        <div class="flex gap-2">
+                            <button onclick="openEditModal(${item[defs[0].key]})" class="p-2 text-blue-600 hover:bg-blue-50 rounded"><i class="ph ph-pencil-simple"></i></button>
+                            <button onclick="deleteItem(${item[defs[0].key]})" class="p-2 text-red-600 hover:bg-red-50 rounded"><i class="ph ph-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (e) {
+            container.innerHTML = '<tr><td colspan="100%" class="text-center text-red-500 py-10 italic">Không thể tải dữ liệu</td></tr>';
+        }
+    }
+
+    document.getElementById('addBtn').onclick = () => {
+        document.getElementById('modalTitle').textContent = `Thêm mới ${currentTab.slice(0,-1)}`;
+        renderForm({});
+        document.getElementById('modal').classList.remove('hidden');
+    };
+
+    async function openEditModal(id) {
+        const res = await fetch(`${API_URLS[currentTab]}/${id}`, { headers: getHeaders() });
+        let item = await res.json();
+
+        // --- XỬ LÝ DỮ LIỆU CHO FORM ---
+        item = normalizeItem(item);
+
+        document.getElementById('modalTitle').textContent = `Chỉnh sửa ${currentTab.slice(0,-1)}`;
+        renderForm(item);
+        document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function renderForm(item) {
+        const fieldsContainer = document.getElementById('formFields');
+        const defs = COLUMN_DEFS[currentTab];
+
+        fieldsContainer.innerHTML = defs.map(c => {
+            const val = (item[c.key] !== null && item[c.key] !== undefined) ? item[c.key] : '';
+            let inputHtml = '';
+
+            if (c.key === defs[0].key) return `<input type="hidden" name="${c.key}" value="${val}">`;
+
+            if (c.type === 'select') {
+                inputHtml = `<select name="${c.key}" class="w-full border border-gray-200 p-2.5 rounded-lg">
+                    ${c.options.map(opt => `<option value="${opt}" ${val === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+                </select>`;
+            } else if (c.type === 'checkbox') {
+                inputHtml = `<input type="checkbox" name="${c.key}" ${val ? 'checked' : ''} class="w-5 h-5 text-green-600">`;
+            } else {
+                inputHtml = `<input type="${c.type}" name="${c.key}" value="${val}" class="w-full border border-gray-200 p-2.5 rounded-lg" placeholder="${c.label}">`;
+            }
+
+            return `<div>
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">${c.label}</label>
+                ${inputHtml}
+            </div>`;
+        }).join('');
+    }
+
+    document.getElementById('crudForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const body = Object.fromEntries(formData.entries());
+        const defs = COLUMN_DEFS[currentTab];
+        const idKey = defs[0].key;
+        const id = body[idKey];
+
+        // Fix checkbox values
+        defs.forEach(c => {
+            if (c.type === 'checkbox') body[c.key] = e.target.querySelector(`[name="${c.key}"]`).checked;
+            if (c.type === 'number' && body[c.key]) body[c.key] = parseInt(body[c.key]);
+        });
+
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `${API_URLS[currentTab]}/${id}` : API_URLS[currentTab];
+
+        await fetch(url, {
+            method,
+            headers: getHeaders(true),
+            body: JSON.stringify(body)
+        });
+
+        closeModal();
+        loadTableData();
+    };
+
+    async function deleteItem(id) {
+        if (!confirm('Bạn có chắc muốn xóa mục này không?')) return;
+        await fetch(`${API_URLS[currentTab]}/${id}`, {
+            method: 'DELETE',
+            headers: getHeaders()
+        });
+        loadTableData();
+    }
+
+    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+    document.getElementById('logoutBtn').onclick = () => {
+        localStorage.clear();
+        window.location.href = '/login';
+    };
+
+    // Initialize display
+    document.getElementById('adminEmail').textContent = 'Quản trị viên';
+
+    showTab('dashboard');
+</script>
+</body>
+</html>

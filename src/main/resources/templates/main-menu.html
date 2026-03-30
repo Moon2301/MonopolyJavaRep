@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monopoly — Trang chủ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main-menu.css">
+</head>
+<body>
+<div class="home-menu">
+    <div class="backdrop-shape shape-a"></div>
+    <div class="backdrop-shape shape-b"></div>
+    <div class="backdrop-shape shape-c"></div>
+
+    <header class="top-header">
+        <section class="player-banner" id="playerProfileBanner" data-route="/profile" role="link" tabindex="0" title="Hồ sơ cá nhân" aria-label="Mở hồ sơ cá nhân" style="cursor: pointer;">
+            <div class="player-avatar-frame">
+                <img class="player-avatar" id="playerAvatar" src="/images/avatar-default.png" alt="Avatar">
+            </div>
+            <div class="player-info">
+                <div class="player-name-ribbon" id="playerName">Người chơi</div>
+                <div class="player-stats">
+                    <span class="stat-pill coin-silver stat-pill--with-coin">
+                        <span id="menuCoinSilver" class="currency-coin-slot" aria-hidden="true"></span>
+                        <span class="stat-pill-text"><strong id="playerCoins">0</strong><em>Bạc</em></span>
+                    </span>
+                    <span class="stat-pill coin-gold stat-pill--with-coin">
+                        <span id="menuCoinGold" class="currency-coin-slot" aria-hidden="true"></span>
+                        <span class="stat-pill-text"><strong id="playerTickets">0</strong><em>Vé</em></span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <div class="title-ribbon">MAIN MENU</div>
+
+        <nav class="header-icons header-icons--compact" aria-label="Lối tắt">
+            <button type="button" class="circle-icon icon-friends" id="openFriendsBtn" data-route="/friends" aria-label="Bạn bè" title="Quản lý bạn bè" style="position: relative;">
+                <span>👥</span>
+                <span id="friendBadge" class="friend-badge" hidden aria-live="polite">0</span>
+            </button>
+            <button type="button" class="circle-icon icon-shop" data-route="/shop" aria-label="Cửa hàng">
+                <span>🛒</span>
+            </button>
+            <button type="button" class="circle-icon icon-topup" data-route="/topup" aria-label="Nạp tiền" title="Nạp tiền (VNPay)">
+                <span>💳</span>
+            </button>
+            <button type="button" class="circle-icon icon-notifications" id="openNotificationsBtn" aria-label="Thông báo" title="Thông báo & lời mời" style="position: relative;">
+                <span>🔔</span>
+                <span id="notificationBadge" class="notification-badge" hidden aria-live="polite">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <div id="notificationPanel" class="notification-panel" hidden aria-hidden="true">
+        <div class="notification-panel-backdrop" id="notificationBackdrop"></div>
+        <aside class="notification-panel-sheet" role="dialog" aria-modal="true" aria-labelledby="notificationPanelTitle">
+            <header class="notification-panel-header">
+                <h2 id="notificationPanelTitle" class="notification-panel-title">Thông báo</h2>
+                <div class="notification-panel-actions">
+                    <button type="button" class="notification-mark-all" id="markAllNotificationsBtn">Đọc hết</button>
+                    <button type="button" class="notification-close-sheet" id="closeNotificationsBtn" aria-label="Đóng">✕</button>
+                </div>
+            </header>
+            <ul id="notificationList" class="notification-list"></ul>
+            <footer class="notification-panel-footer">
+                <button type="button" class="notification-logout-btn" id="menuLogoutBtn">Đăng xuất</button>
+            </footer>
+        </aside>
+    </div>
+
+    <main class="menu-layout">
+        <section class="cards-grid">
+            <article class="menu-card featured card-private">
+                <div class="card-illustration dice-stack">
+                    <div class="platform"></div>
+                    <div class="dice cube-one"></div>
+                    <div class="dice cube-two"></div>
+                </div>
+                <div class="card-title blue">BÀN RIÊNG</div>
+                <div class="action-row">
+                    <button type="button" class="action-button" id="createRoomButton">TẠO PHÒNG</button>
+                    <button type="button" class="action-button" id="joinRoomButton">VÀO PHÒNG</button>
+                </div>
+                <div class="action-row">
+                    <input type="text" id="roomCodeInput" class="room-code-input" placeholder="Mã phòng" aria-label="Mã phòng">
+                </div>
+                <p id="roomActionStatus" class="menu-status"></p>
+            </article>
+
+            <article class="menu-card featured card-play">
+                <div class="card-illustration globe-wrap">
+                    <div class="orbit orbit-a"></div>
+                    <div class="orbit orbit-b"></div>
+                    <div class="orbit orbit-c"></div>
+                    <div class="globe-core"></div>
+                </div>
+                <div class="card-title green">CHƠI</div>
+                <div class="action-row">
+                    <button type="button" class="action-button" data-route="/play-vs-ai">ĐẤU MÁY</button>
+                    <button type="button" class="action-button" data-route="/friends">BẠN BÈ</button>
+                </div>
+            </article>
+
+            <article class="menu-card support" data-route="/shop">
+                <div class="card-illustration mini store-scene">
+                    <div class="store-roof"></div>
+                    <div class="store-body"></div>
+                    <div class="store-door"></div>
+                </div>
+                <div class="card-title yellow compact">CỬA HÀNG</div>
+            </article>
+
+            <article class="menu-card support" data-route="/friends">
+                <div class="card-illustration mini friends-scene">
+                    <span class="friends-icon" aria-hidden="true">👥</span>
+                </div>
+                <div class="card-title blue compact">BẠN BÈ</div>
+            </article>
+        </section>
+    </main>
+</div>
+<script src="/character/coin-system.js"></script>
+<script src="/js/main-menu.js"></script>
+</body>
+</html>

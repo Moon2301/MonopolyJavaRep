@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monopoly - Giải Đấu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tournament.css">
+</head>
+<body>
+<main class="tournament-page">
+    <section class="panel bracket-panel">
+        <p class="section-tag">Bảng đấu</p>
+        <h1>Giải Đấu</h1>
+        <div class="bracket">
+            <div class="round">
+                <div class="match-card"><strong>Alice</strong><span>đấu Bruno</span></div>
+                <div class="match-card"><strong>Chase</strong><span>đấu Diana</span></div>
+            </div>
+            <div class="round">
+                <div class="match-card winner"><strong>Alice</strong><span>Vào chung kết</span></div>
+            </div>
+            <div class="round">
+                <div class="match-card champion"><strong>Nhà vô địch</strong><span>Chưa xác định</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel ranking-panel">
+        <p class="section-tag">Xếp hạng người chơi</p>
+        <div class="ranking-list">
+            <div class="ranking-row"><span>#1</span><strong>Alice</strong><em>1240 pts</em></div>
+            <div class="ranking-row"><span>#2</span><strong>Bruno</strong><em>1180 pts</em></div>
+            <div class="ranking-row"><span>#3</span><strong>Diana</strong><em>1090 pts</em></div>
+            <div class="ranking-row"><span>#4</span><strong>Chase</strong><em>980 pts</em></div>
+        </div>
+    </section>
+
+    <aside class="panel progress-panel">
+        <p class="section-tag">Tiến độ</p>
+        <div class="progress-card">
+            <strong>Tứ kết</strong>
+            <div class="progress-bar"><span></span></div>
+            <small>Đã hoàn thành 2 trong 4 trận</small>
+        </div>
+        <div class="progress-card">
+            <strong>Chung kết</strong>
+            <div class="progress-bar"><span class="short"></span></div>
+            <small>Đang chờ các tuyển thủ vào chung kết</small>
+        </div>
+    </aside>
+</main>
+<script src="/js/tournament.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<svg width="72" height="88" viewBox="0 0 72 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="36" cy="83" rx="13" ry="3.5" fill="#00000018" id="shadow-__UID__"/>
+  <g id="body-__UID__">
+    <path d="M18 42 Q12 74 22 79 L36 76 L50 79 Q60 74 54 42Z" fill="#B71C1C"/>
+    <rect x="22" y="38" width="28" height="16" rx="6" fill="#E53935"/>
+    <circle cx="36" cy="45" r="7" fill="#FFD54F" stroke="#F9A825" stroke-width="0.6"/>
+    <text x="32" y="48" font-size="9" fill="#5D4037" font-weight="700" font-family="sans-serif">%</text>
+    <ellipse cx="36" cy="30" rx="11" ry="8" fill="#ECEFF1"/>
+    <circle cx="36" cy="22" r="12" fill="#F5D5B8" stroke="#D7CCC8" stroke-width="0.5"/>
+    <path d="M26 24 Q36 18 46 24" stroke="#CFD8DC" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="31" cy="21" r="1.8" fill="#37474F"/>
+    <circle cx="41" cy="21" r="1.8" fill="#37474F"/>
+    <path d="M30 28 Q36 31 42 28" stroke="#8D6E63" stroke-width="1" fill="none"/>
+    <ellipse cx="36" cy="10" rx="12" ry="5" fill="#C62828"/>
+    <rect x="10" y="42" width="13" height="7" rx="3.5" fill="#F5D5B8"/>
+    <rect x="49" y="42" width="13" height="7" rx="3.5" fill="#F5D5B8"/>
+    <ellipse cx="14" cy="58" rx="7" ry="8" fill="#FFD54F" stroke="#F9A825" stroke-width="0.5"/>
+    <rect x="24" y="62" width="10" height="14" rx="4" fill="#B71C1C"/>
+    <rect x="38" y="62" width="10" height="14" rx="4" fill="#B71C1C"/>
+  </g>
+</svg>

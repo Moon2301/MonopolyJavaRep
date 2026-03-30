@@ -1,0 +1,20 @@
+<svg width="72" height="88" viewBox="0 0 72 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="36" cy="83" rx="13" ry="3.5" fill="#00000018" id="shadow-__UID__"/>
+  <g id="body-__UID__">
+    <rect x="21" y="42" width="30" height="26" rx="7" fill="#2E7D32"/>
+    <rect x="26" y="46" width="20" height="4" rx="2" fill="#A5D6A7" opacity="0.6"/>
+    <circle cx="36" cy="30" r="14" fill="#FFCC80" stroke="#D7CCC8" stroke-width="0.5"/>
+    <circle cx="31" cy="28" r="2" fill="#37474F"/>
+    <circle cx="41" cy="28" r="2" fill="#37474F"/>
+    <path d="M28 34 Q36 40 44 34" stroke="#6D4C41" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <rect x="10" y="46" width="12" height="7" rx="3" fill="#FFCC80"/>
+    <rect x="50" y="46" width="12" height="7" rx="3" fill="#FFCC80"/>
+    <rect x="6" y="54" width="14" height="12" rx="3" fill="#FFD54F" stroke="#F9A825"/>
+    <rect x="9" y="57" width="8" height="6" rx="1" fill="#FFF59D"/>
+    <text x="9" y="64" font-size="8" fill="#33691E" font-weight="700" font-family="sans-serif">+</text>
+    <circle cx="54" cy="58" r="8" fill="#43A047" stroke="#1B5E20" stroke-width="0.5"/>
+    <text x="51" y="61" font-size="9" fill="#E8F5E9" font-weight="800" font-family="sans-serif"></text>
+    <rect x="24" y="66" width="10" height="14" rx="4" fill="#1B5E20"/>
+    <rect x="38" y="66" width="10" height="14" rx="4" fill="#1B5E20"/>
+  </g>
+</svg>

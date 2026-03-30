@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monopoly - Đấu máy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/private-table.css">
+    <link rel="stylesheet" href="/character/character.css">
+    <link rel="stylesheet" href="/css/play-vs-ai.css">
+</head>
+<body class="play-vs-ai-page">
+<div class="private-room">
+    <div class="bg-shape shape-a"></div>
+    <div class="bg-shape shape-b"></div>
+    <div class="bg-shape shape-c"></div>
+
+    <header class="room-header">
+        <div class="header-left">
+            <button type="button" class="home-button" data-action="ai-home" aria-label="Trang chủ">⌂</button>
+            <section class="player-banner">
+                <div class="player-avatar-frame">
+                    <div class="player-avatar" id="aiPlayerAvatar">RG</div>
+                </div>
+                <div class="player-info">
+                    <div class="player-name-ribbon" id="aiPlayerName">—</div>
+                    <div class="player-stats">
+                        <span class="stat-pill coin-silver stat-pill--with-coin">
+                            <span id="aiMenuCoinSilver" class="currency-coin-slot" aria-hidden="true"></span>
+                            <span class="stat-pill-text"><strong id="aiPlayerCoins">0</strong><em>Bạc</em></span>
+                        </span>
+                        <span class="stat-pill coin-gold stat-pill--with-coin">
+                            <span id="aiMenuCoinGold" class="currency-coin-slot" aria-hidden="true"></span>
+                            <span class="stat-pill-text"><strong id="aiPlayerTickets">0</strong><em>Vé</em></span>
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="room-title">ĐẤU MÁY</div>
+
+        <nav class="header-icons" aria-label="Điều hướng">
+            <button type="button" class="circle-icon" data-action="ai-shop" aria-label="Cửa hàng">🛒</button>
+            <button type="button" class="circle-icon" data-action="ai-menu" aria-label="Menu">☰</button>
+        </nav>
+    </header>
+
+    <section class="top-controls ai-top-hint">
+        <p class="ai-setup-hint">Chọn nhân vật và thêm bot (dễ/khó) vào các ô trống. Bấm vào ô để gán nhân vật từ lưới bên dưới.</p>
+    </section>
+
+    <main class="room-layout room-layout-wide">
+        <section class="slots-area">
+            <section class="hero-selection-panel">
+                <div class="hero-selection-header">
+                    <div class="hero-current-media">
+                        <img id="aiSelectedHeroImage" class="hero-current-image" src="" alt="Hero hiện tại">
+                        <div id="aiSelectedHeroSvgHost" class="hero-current-svg-host" hidden></div>
+                        <div id="aiHeroEmptyState" class="hero-empty-state">Chưa chọn nhân vật</div>
+                    </div>
+                    <div class="hero-current-info">
+                        <div class="hero-current-label">Nhân vật đang gán</div>
+                        <div id="aiSelectedHeroName" class="hero-current-name">—</div>
+                        <p id="aiActiveSlotHint" class="ai-active-slot-hint"></p>
+                    </div>
+                    <div id="aiHeroSkillPanel" class="hero-skill-panel" hidden>
+                        <div class="hero-skill-eyebrow">Kỹ năng</div>
+                        <div id="aiSelectedHeroSkillName" class="hero-skill-name"></div>
+                        <p id="aiSelectedHeroSkillDesc" class="hero-skill-desc"></p>
+                        <div id="aiSelectedHeroSkillCd" class="hero-skill-cd"></div>
+                    </div>
+                </div>
+                <div id="aiHeroList" class="hero-list"></div>
+            </section>
+            <div id="aiPlayerSlots" class="slots-grid"></div>
+            <div class="room-footer-status">
+                <button type="button" class="play-button" id="aiStartButton" data-action="ai-start">Bắt đầu trận</button>
+                <p id="aiPlayerCount" class="room-count">1/4 người chơi</p>
+                <p id="aiTableStatus" class="table-status"></p>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="/js/hero-system.js"></script>
+<script src="/character/coin-system.js"></script>
+<script src="/js/play-vs-ai.js"></script>
+</body>
+</html>

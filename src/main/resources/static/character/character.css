@@ -1,0 +1,10 @@
+/**
+ * Sprite nhân vật từ /character/*.svg — bổ sung chung (không thay thế private-table / game-board).
+ */
+.hero-current-svg-host svg,
+.hero-option-media--svg svg,
+.slot-hero-svg-wrap svg,
+.player-chip-svg svg,
+.token-pawn__svg svg {
+    shape-rendering: geometricPrecision;
+}

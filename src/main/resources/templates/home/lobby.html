@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monopoly - Sảnh Chờ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/lobby.css">
+</head>
+<body>
+<main class="lobby-page">
+    <section class="panel create-panel">
+        <p class="section-tag">Dieu Khien Phong</p>
+        <h1>Sanh Cho</h1>
+
+        <div class="button-stack">
+            <input id="createRoomName" type="text" placeholder="Ten phong" aria-label="Ten phong">
+            <select id="createVisibility" aria-label="Che do phong">
+                <option value="PRIVATE">Rieng tu</option>
+                <option value="PUBLIC">Cong khai</option>
+            </select>
+            <input id="createPassword" type="password" placeholder="Mat khau phong" aria-label="Mat khau phong">
+            <select id="createMode" aria-label="Che do choi">
+                <option value="QUICK_GAME">Quick Game</option>
+                <option value="CLASSIC">Classic</option>
+                <option value="NO_GADGETS">No Gadgets</option>
+                <option value="FANTASY">Fantasy</option>
+                <option value="TWO_VS_TWO">2x2</option>
+            </select>
+            <select id="createMaxPlayers" aria-label="So nguoi choi toi da">
+                <option value="4">4 nguoi choi</option>
+                <option value="3">3 nguoi choi</option>
+                <option value="2">2 nguoi choi</option>
+            </select>
+            <button type="button" id="createRoomButton" class="accent">Tao Phong</button>
+        </div>
+
+        <p class="section-tag" style="margin-top: 28px;">Tham Gia Phong</p>
+        <div class="button-stack">
+            <input id="joinRoomCode" type="text" placeholder="Ma phong" aria-label="Ma phong">
+            <input id="joinRoomPassword" type="password" placeholder="Mat khau neu co" aria-label="Mat khau phong">
+            <button type="button" id="joinRoomButton">Tham Gia Phong</button>
+        </div>
+
+        <p id="lobbyStatus" class="section-tag" style="margin-top: 18px;"></p>
+    </section>
+
+    <section class="panel room-list-panel">
+        <p class="section-tag">Phong Hien Co</p>
+        <div id="roomList" class="room-list"></div>
+    </section>
+
+    <aside class="panel players-panel">
+        <p class="section-tag">Ban Be</p>
+        <div class="button-stack friend-add-stack">
+            <input id="friendUsernameInput" type="text" placeholder="Nhap username ban be" aria-label="Username ban be">
+            <button type="button" id="addFriendButton" class="accent">Them Ban</button>
+        </div>
+        <p id="friendStatus" class="section-tag" style="margin-top: 12px;"></p>
+        <div id="friendList" class="player-list"></div>
+
+        <p class="section-tag" style="margin-top: 20px;">Kênh Chat</p>
+        <div id="channelChatMessages" class="channel-chat-messages"></div>
+        <div class="channel-chat-input-row">
+            <input id="channelChatInput" type="text" placeholder="Nhập tin nhắn chung..." aria-label="Tin nhắn kênh chat">
+            <button type="button" id="sendChannelChatButton" class="accent">Gửi</button>
+        </div>
+    </aside>
+</main>
+<script src="/js/lobby.js"></script>
+</body>
+</html>

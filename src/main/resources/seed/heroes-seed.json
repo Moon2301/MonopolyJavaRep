@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Phú Lộc Thọ",
+    "rarity": "EPIC",
+    "baseHp": 100,
+    "baseIncomeBonus": 10,
+    "price": 2500,
+    "appearanceDescription": "Ông lão áo đỏ, râu trắng, túi vàng, huy hiệu %.",
+    "startingGoldBonus": 0,
+    "defaultUnlocked": false,
+    "isActive": true,
+    "skillName": "Lộc Trời"
+  },
+  {
+    "name": "Thần Xúc Xắc",
+    "rarity": "LEGENDARY",
+    "baseHp": 100,
+    "baseIncomeBonus": 0,
+    "price": 3200,
+    "appearanceDescription": "Thân và đầu là xúc xắc, đội vương miện tím.",
+    "startingGoldBonus": 0,
+    "defaultUnlocked": false,
+    "isActive": true,
+    "skillName": "Ý Chí Xác Suất"
+  },
+  {
+    "name": "Kiến Trúc Sư",
+    "rarity": "EPIC",
+    "baseHp": 100,
+    "baseIncomeBonus": 0,
+    "price": 2950,
+    "appearanceDescription": "Mũ bảo hộ vàng, cầm bản vẽ và thước.",
+    "startingGoldBonus": 0,
+    "defaultUnlocked": false,
+    "isActive": true,
+    "skillName": "Tối Ưu Công Trình"
+  },
+  {
+    "name": "Bóng Ma Tốc Độ",
+    "rarity": "LEGENDARY",
+    "baseHp": 100,
+    "baseIncomeBonus": 0,
+    "price": 5700,
+    "appearanceDescription": "Bán trong suốt xanh, để lại afterimage, mắt trắng.",
+    "startingGoldBonus": 0,
+    "defaultUnlocked": false,
+    "isActive": true,
+    "skillName": "Tăng Pha"
+  },
+  {
+    "name": "Thám Tử Đen",
+    "rarity": "EPIC",
+    "baseHp": 100,
+    "baseIncomeBonus": 0,
+    "price": 4100,
+    "appearanceDescription": "Fedora đen, kính lúp, vết sẹo, xúc xắc đỏ tay phải.",
+    "startingGoldBonus": 0,
+    "defaultUnlocked": false,
+    "isActive": true,
+    "skillName": "Thẩm Vấn Rủi Ro"
+  },
+  {
+    "name": "Hư Vô Sứ",
+    "rarity": "MYTHIC",
+    "baseHp": 100,
+    "baseIncomeBonus": 0,
+    "price": 6000,
+    "appearanceDescription": "Áo choàng tím vũ trụ, tay phải là hố đen, mắt sáng.",
+    "startingGoldBonus": 0,
+    "defaultUnlocked": false,
+    "isActive": true,
+    "skillName": "Xóa Quyền Sở Hữu"
+  },
+  {
+    "name": "Nữ Hoàng Hợp Đồng",
+    "rarity": "MYTHIC",
+    "baseHp": 100,
+    "baseIncomeBonus": 0,
+    "price": 7200,
+    "appearanceDescription": "Quý tộc đen-vàng, bút lông ánh kim, khế ước phát sáng.",
+    "startingGoldBonus": 0,
+    "defaultUnlocked": false,
+    "isActive": true,
+    "skillName": "Điều Khoản Vàng"
+  },
+  {
+    "name": "Nhà Tài Trợ Khởi Đầu",
+    "rarity": "COMMON",
+    "baseHp": 100,
+    "baseIncomeBonus": 0,
+    "price": 0,
+    "appearanceDescription": "Nhân vật mặc định cho mọi người chơi, mang theo túi quỹ khởi đầu.",
+    "startingGoldBonus": 500,
+    "defaultUnlocked": true,
+    "isActive": true,
+    "skillName": "Quỹ Khởi Đầu"
+  }
+]

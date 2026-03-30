@@ -1,0 +1,99 @@
+.play-vs-ai-page .ai-top-hint {
+    padding: 0 8px 8px;
+}
+
+.ai-setup-hint {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+    text-align: center;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.45;
+}
+
+.ai-active-slot-hint {
+    margin: 8px 0 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: rgba(87, 60, 48, 0.72);
+}
+
+.slot-card.ai-slot {
+    position: relative;
+}
+
+.slot-bot-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    background: rgba(30, 136, 229, 0.18);
+    color: #0d47a1;
+}
+
+.slot-bot-badge--hard {
+    background: rgba(183, 28, 28, 0.18);
+    color: #b71c1c;
+}
+
+.slot-add-popover {
+    position: absolute;
+    left: 50%;
+    bottom: 52%;
+    transform: translateX(-50%);
+    z-index: 5;
+    min-width: 200px;
+    padding: 12px;
+    border-radius: 16px;
+    background: rgba(255, 252, 247, 0.98);
+    border: 2px solid rgba(30, 136, 229, 0.35);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.slot-add-popover button {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    background: linear-gradient(180deg, #42a5f5, #1e88e5);
+    color: #fff;
+}
+
+.slot-add-popover button:last-of-type {
+    background: linear-gradient(180deg, #ef5350, #c62828);
+}
+
+.slot-add-hint {
+    margin: 4px 0 0;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: rgba(55, 40, 32, 0.65);
+}
+
+.slot-remove-bot {
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.06);
+    color: rgba(55, 40, 32, 0.85);
+}
+
+.slot-card.slot-focus {
+    outline: 3px solid rgba(30, 136, 229, 0.55);
+    outline-offset: 2px;
+}

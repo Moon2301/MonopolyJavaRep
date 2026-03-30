@@ -1,0 +1,20 @@
+<svg width="72" height="88" viewBox="0 0 72 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="36" cy="83" rx="13" ry="3.5" fill="#00000018" id="shadow-__UID__"/>
+  <g id="body-__UID__">
+    <g opacity="0.45">
+      <path d="M22 44 Q18 70 28 76 L36 73 L44 76 Q54 70 50 44Z" fill="#26C6DA"/>
+      <circle cx="30" cy="38" r="10" fill="#4DD0E1"/>
+    </g>
+    <path d="M20 42 Q14 72 24 78 L36 75 L48 78 Q58 72 52 42Z" fill="#00ACC1" opacity="0.55"/>
+    <path d="M18 40 Q12 70 22 76 L36 73 L50 76 Q60 70 54 40Z" fill="#00BCD4" opacity="0.85"/>
+    <circle cx="36" cy="26" r="13" fill="#B2EBF2" stroke="#4DD0E1" stroke-width="0.6" opacity="0.9"/>
+    <ellipse cx="30" cy="24" rx="3" ry="4" fill="#E0F7FA"/>
+    <ellipse cx="42" cy="24" rx="3" ry="4" fill="#E0F7FA"/>
+    <path d="M8 32 L4 28 M10 28 L6 24 M12 36 L8 32" stroke="#4DD0E1" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+    <path d="M64 32 L68 28 M62 28 L66 24 M60 36 L64 32" stroke="#4DD0E1" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+    <rect x="10" y="44" width="14" height="8" rx="3" fill="#B2EBF2" opacity="0.7"/>
+    <rect x="48" y="44" width="14" height="8" rx="3" fill="#B2EBF2" opacity="0.7"/>
+    <rect x="24" y="62" width="10" height="14" rx="4" fill="#00838F" opacity="0.75"/>
+    <rect x="38" y="62" width="10" height="14" rx="4" fill="#00838F" opacity="0.75"/>
+  </g>
+</svg>

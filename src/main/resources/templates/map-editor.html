@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh Sửa Bản Đồ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/map-editor.css">
+</head>
+<body>
+<main class="editor-page">
+    <aside class="panel properties-panel">
+        <p class="section-tag">Thuộc tính ô</p>
+        <h1>Ô đang chọn</h1>
+        <label class="field"><span>Tên</span><input type="text" placeholder="Ô 08"></label>
+        <label class="field"><span>Loại</span><input type="text" placeholder="Tài sản"></label>
+        <label class="field"><span>Giá</span><input type="text" placeholder="250"></label>
+    </aside>
+
+    <section class="panel grid-panel">
+        <p class="section-tag">Lưới bàn cờ</p>
+        <div class="editor-grid">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span class="active"></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+    </section>
+
+    <aside class="panel toolbox-panel">
+        <p class="section-tag">Hộp công cụ</p>
+        <button type="button">Thêm tài sản</button>
+        <button type="button">Thêm thẻ</button>
+        <button type="button">Thêm ô đặc biệt</button>
+    </aside>
+</main>
+<script src="/js/map-editor.js"></script>
+</body>
+</html>

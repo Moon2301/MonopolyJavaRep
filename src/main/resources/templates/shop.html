@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa Hàng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/character/character.css">
+</head>
+<body>
+<main class="shop-page">
+    <header class="shop-header">
+        <button type="button" id="shopBackButton" class="back-button" aria-label="Quay về">← Quay về</button>
+        <p class="section-tag">Cửa hàng tướng</p>
+        <h1>Cửa Hàng</h1>
+        <p id="shop-coins" class="shop-coins">
+            <span id="shopCoinSilverSlot" class="currency-coin-slot shop-coins__icon" aria-hidden="true"></span>
+            <span id="shopCoinsLabel" class="shop-coins__text">Bạc: --</span>
+        </p>
+    </header>
+    <section class="shop-grid">
+        <p id="shop-loading" class="shop-state">Đang tải danh sách nhân vật...</p>
+    </section>
+    <div id="shopModal" class="shop-modal" hidden aria-hidden="true" role="dialog">
+        <div class="shop-modal__backdrop"></div>
+        <div class="shop-modal__panel">
+            <h2 id="modalTitle">Xác nhận mua</h2>
+            <p id="modalDescription">Bạn có chắc chắn muốn mua nhân vật này?</p>
+            <div class="shop-modal__actions">
+                <button type="button" class="modal-btn modal-btn--ghost" id="modalCancel">Hủy</button>
+                <button type="button" class="modal-btn modal-btn--primary" id="modalConfirm">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="/js/hero-system.js"></script>
+<script src="/character/coin-system.js"></script>
+<script src="/js/shop.js"></script>
+</body>
+</html>

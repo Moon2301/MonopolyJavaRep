@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bạn bè</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/friends.css">
+</head>
+<body>
+<main class="friends-page">
+    <header class="friends-header glass">
+        <a class="back-link" href="/home">← Trang chủ</a>
+        <h1>Bạn bè</h1>
+        <p class="sub">Kết nối qua username. Bảng <code>Friend</code> lưu quan hệ giữa các user profile.</p>
+    </header>
+
+    <section class="invite-panel glass">
+        <h2>Gửi lời mời</h2>
+        <form id="inviteForm" class="invite-form">
+            <label for="friendUsername">Username đối phương</label>
+            <div class="invite-row">
+                <input id="friendUsername" type="text" autocomplete="username" placeholder="vd: player1" required>
+                <button type="submit" id="sendInviteBtn">Gửi</button>
+            </div>
+        </form>
+        <p id="friendsStatus" class="status-line" role="status"></p>
+    </section>
+
+    <section class="lists">
+        <div class="list-block glass" id="incomingBlock">
+            <h2>Lời mời nhận được</h2>
+            <ul id="incomingList" class="friend-list"></ul>
+            <p class="empty-hint" id="incomingEmpty">Không có lời mời.</p>
+        </div>
+        <div class="list-block glass">
+            <h2>Danh sách bạn</h2>
+            <ul id="acceptedList" class="friend-list"></ul>
+            <p class="empty-hint" id="acceptedEmpty">Chưa có bạn bè đã kết nối.</p>
+        </div>
+        <div class="list-block glass">
+            <h2>Đang chờ phản hồi</h2>
+            <ul id="outgoingList" class="friend-list"></ul>
+            <p class="empty-hint" id="outgoingEmpty">Không có lời mời đang gửi.</p>
+        </div>
+    </section>
+</main>
+<script src="/js/friends.js"></script>
+</body>
+</html>
