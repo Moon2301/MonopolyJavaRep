@@ -103,4 +103,22 @@ public class GamePlayController {
     ) {
         return gamePlayService.surrenderGame(gameId, accountId);
     }
+
+    @PostMapping("/{gameId}/team-up/invite")
+    public GameActionResponse teamUpInvite(
+            @PathVariable Long gameId,
+            @RequestHeader(name = "X-Account-Id", required = false) Long accountId,
+            @RequestBody(required = false) TeamUpInviteRequest request) {
+        boolean invite = request != null && request.isInvite();
+        return gamePlayService.teamUpInvite(gameId, accountId, invite);
+    }
+
+    @PostMapping("/{gameId}/team-up/respond")
+    public GameActionResponse teamUpRespond(
+            @PathVariable Long gameId,
+            @RequestHeader(name = "X-Account-Id", required = false) Long accountId,
+            @RequestBody(required = false) TeamUpRespondRequest request) {
+        boolean accept = request != null && request.isAccept();
+        return gamePlayService.teamUpRespond(gameId, accountId, accept);
+    }
 }

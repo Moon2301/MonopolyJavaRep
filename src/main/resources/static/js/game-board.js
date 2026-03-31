@@ -43,6 +43,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const surrenderConfirmTextEl = document.getElementById("surrenderConfirmText");
     const surrenderCancelButton = document.getElementById("surrenderCancelButton");
     const surrenderConfirmButton = document.getElementById("surrenderConfirmButton");
+
+    const teamUpModal = document.getElementById("teamUpModal");
+    const teamUpModalTitle = document.getElementById("teamUpModalTitle");
+    const teamUpModalText = document.getElementById("teamUpModalText");
+    const teamUpCancelButton = document.getElementById("teamUpCancelButton");
+    const teamUpConfirmButton = document.getElementById("teamUpConfirmButton");
     const duelDiceModal = document.getElementById("duelDiceModal");
     const duelDiceSelect1 = document.getElementById("duelDiceSelect1");
     const duelDiceSelect2 = document.getElementById("duelDiceSelect2");
@@ -55,6 +61,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (surrenderConfirmModal) {
         surrenderConfirmModal.hidden = true;
         surrenderConfirmModal.setAttribute("aria-hidden", "true");
+    }
+    if (teamUpModal) {
+        teamUpModal.hidden = true;
+        teamUpModal.setAttribute("aria-hidden", "true");
     }
     if (duelDiceModal) {
         duelDiceModal.hidden = true;
@@ -89,6 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let hoverBoardIndex = null;
     let debtActionInFlight = false;
     let surrenderActionInFlight = false;
+    let teamUpActionInFlight = false;
     /** { skillId: string } khi đang chọn ô mục tiêu */
     let pendingSkillActivation = null;
     let pendingDuelSkillId = null;
@@ -1345,7 +1356,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             assetArr.forEach((a) => {
                 const li = document.createElement("li");
                 li.className = "debt-asset-item";
-                const actionLabel = a.suggestedAction === "SELL_HOUSE" ? "Bán 1 nhà" : "Thế chấp ô";
+                const actionLabel =
+                    a.suggestedAction === "SELL_HOUSES"
+                        ? "Bán hết nhà"
+                        : a.suggestedAction === "SELL_HOUSE"
+                          ? "Bán 1 nhà"
+                          : "Thế chấp ô";
                 const meta = document.createElement("div");
                 meta.className = "debt-asset-meta";
                 meta.innerHTML = `<div class="debt-asset-name">${escapeHtml(a.name)}</div>
@@ -1384,11 +1400,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 p.username ||
                 (p.isBot ? `Bot ${p.turnOrder}` : `Player ${p.turnOrder}`);
             const orderIdx = Math.max(0, (p.turnOrder || 1) - 1);
+            const teamOrderIdx = Math.max(
+                0,
+                (p.teamOwnerTurnOrder != null ? p.teamOwnerTurnOrder : p.turnOrder || 1) - 1
+            );
             nextPlayers.push({
                 id: p.turnOrder,
                 username: label,
                 money: p.balance || 0,
-                color: PLAYER_PALETTE[orderIdx % PLAYER_PALETTE.length],
+                color: PLAYER_PALETTE[teamOrderIdx % PLAYER_PALETTE.length],
                 avatar: p.isBot ? "BOT" : `P${p.turnOrder}`,
                 position: p.position || 0,
                 avatarUrl: p.avatarUrl || null,
@@ -1537,6 +1557,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                 surrenderButton.hidden = !can;
                 surrenderButton.disabled = !can;
             }
+
+            const teamPending = state.teamUpPending;
+            if (teamUpModal) {
+                const myOrder = state.myPlayerTurnOrder;
+                const showTeam =
+                    teamPending &&
+                    playing &&
+                    myOrder != null &&
+                    (teamPending.phase === "INVITE"
+                        ? myOrder === teamPending.creditorTurnOrder
+                        : myOrder === teamPending.dependentTurnOrder);
+                if (showTeam) {
+                    openTeamUpModal(teamPending);
+                } else {
+                    closeTeamUpModal();
+                }
+            }
         } else {
             if (rollDiceButton) rollDiceButton.disabled = false;
             if (endTurnButton) endTurnButton.disabled = false;
@@ -1545,6 +1582,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (payOppRentButton) payOppRentButton.hidden = true;
             if (buybackOppButton) buybackOppButton.hidden = true;
             if (surrenderButton) surrenderButton.hidden = true;
+            closeTeamUpModal();
             updateTurnTimerDisplay(null, false);
         }
 
@@ -1655,6 +1693,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         return response.json();
     };
 
+    const callTeamUpInvite = async (invite) => {
+        const response = await fetch(`/api/gameplay/${gameId}/team-up/invite`, {
+            method: "POST",
+            headers: authHeaders(true),
+            body: JSON.stringify({ invite })
+        });
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || "Thao tác team-up thất bại");
+        }
+        return response.json();
+    };
+
+    const callTeamUpRespond = async (accept) => {
+        const response = await fetch(`/api/gameplay/${gameId}/team-up/respond`, {
+            method: "POST",
+            headers: authHeaders(true),
+            body: JSON.stringify({ accept })
+        });
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || "Thao tác team-up thất bại");
+        }
+        return response.json();
+    };
+
     const openSurrenderModal = () => {
         if (!surrenderConfirmModal) return;
         const bot = urlParams.get("vsBot") === "1";
@@ -1671,6 +1735,38 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!surrenderConfirmModal) return;
         surrenderConfirmModal.hidden = true;
         surrenderConfirmModal.setAttribute("aria-hidden", "true");
+    };
+
+    const openTeamUpModal = (pending) => {
+        if (!teamUpModal) return;
+        teamUpModal.hidden = false;
+        teamUpModal.setAttribute("aria-hidden", "false");
+
+        const phase = pending?.phase;
+        const creditorName = pending?.creditorName || "đội trưởng";
+        const dependentName = pending?.dependentName || "người đã bị loại";
+
+        if (phase === "INVITE") {
+            teamUpModalTitle.textContent = "Team-up?";
+            teamUpModalText.textContent =
+                `Bạn (đội trưởng: ${creditorName}) có thể mời ${dependentName} vào team-up. ` +
+                `Nếu được cứu, người phụ thuộc sẽ bị +50% phí thuê nhà.`;
+            teamUpCancelButton.textContent = "Bỏ qua";
+            teamUpConfirmButton.textContent = "Gửi lời mời";
+        } else {
+            teamUpModalTitle.textContent = "Team-up từ đội trưởng";
+            teamUpModalText.textContent =
+                `${creditorName} muốn cứu bạn thành phụ thuộc. ` +
+                `Bạn sẽ được vào team, nhưng bị +50% phí thuê nhà.`;
+            teamUpCancelButton.textContent = "Từ chối";
+            teamUpConfirmButton.textContent = "Đồng ý";
+        }
+    };
+
+    const closeTeamUpModal = () => {
+        if (!teamUpModal) return;
+        teamUpModal.hidden = true;
+        teamUpModal.setAttribute("aria-hidden", "true");
     };
 
     const openDuelDiceModal = (skillId) => {
@@ -1982,6 +2078,60 @@ document.addEventListener("DOMContentLoaded", async () => {
             surrenderActionInFlight = false;
             if (surrenderConfirmButton) surrenderConfirmButton.disabled = false;
             if (surrenderCancelButton) surrenderCancelButton.disabled = false;
+        }
+    });
+
+    teamUpCancelButton?.addEventListener("click", async () => {
+        if (!isLiveGame || teamUpActionInFlight) return;
+        if (!lastLiveState?.teamUpPending) return;
+
+        const pending = lastLiveState.teamUpPending;
+        teamUpActionInFlight = true;
+        teamUpCancelButton && (teamUpCancelButton.disabled = true);
+        teamUpConfirmButton && (teamUpConfirmButton.disabled = true);
+
+        try {
+            const data =
+                pending.phase === "INVITE"
+                    ? await callTeamUpInvite(false)
+                    : await callTeamUpRespond(false);
+            closeTeamUpModal();
+            await syncFromState(data.state);
+            setActionStatus(data.message || "Đã cập nhật team-up");
+        } catch (error) {
+            setActionStatus(error.message || "Thao tác team-up thất bại", true);
+            if (lastLiveState) await syncFromState(lastLiveState);
+        } finally {
+            teamUpActionInFlight = false;
+            if (teamUpCancelButton) teamUpCancelButton.disabled = false;
+            if (teamUpConfirmButton) teamUpConfirmButton.disabled = false;
+        }
+    });
+
+    teamUpConfirmButton?.addEventListener("click", async () => {
+        if (!isLiveGame || teamUpActionInFlight) return;
+        if (!lastLiveState?.teamUpPending) return;
+
+        const pending = lastLiveState.teamUpPending;
+        teamUpActionInFlight = true;
+        teamUpCancelButton && (teamUpCancelButton.disabled = true);
+        teamUpConfirmButton && (teamUpConfirmButton.disabled = true);
+
+        try {
+            const data =
+                pending.phase === "INVITE"
+                    ? await callTeamUpInvite(true)
+                    : await callTeamUpRespond(true);
+            closeTeamUpModal();
+            await syncFromState(data.state);
+            setActionStatus(data.message || "Đã xác nhận team-up");
+        } catch (error) {
+            setActionStatus(error.message || "Thao tác team-up thất bại", true);
+            if (lastLiveState) await syncFromState(lastLiveState);
+        } finally {
+            teamUpActionInFlight = false;
+            if (teamUpCancelButton) teamUpCancelButton.disabled = false;
+            if (teamUpConfirmButton) teamUpConfirmButton.disabled = false;
         }
     });
 

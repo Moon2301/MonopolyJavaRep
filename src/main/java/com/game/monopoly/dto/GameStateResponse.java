@@ -45,6 +45,26 @@ public class GameStateResponse {
      */
     private OpponentLandPendingDto opponentLandPending;
 
+    /**
+     * Khi có team-up: người bị loại (phụ thuộc) sẽ được đội trưởng cứu cùng tài nguyên nếu đồng ý.
+     * Gồm 2 pha: INVITE (đội trưởng chọn mời) và ACCEPT (phụ thuộc chọn đồng ý/không).
+     */
+    private TeamUpPendingDto teamUpPending;
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class TeamUpPendingDto {
+        /** INVITE = đội trưởng (creditor) quyết định mời; ACCEPT = phụ thuộc quyết định. */
+        private String phase;
+        private Long creditorGamePlayerId;
+        private Long dependentGamePlayerId;
+        private Integer creditorTurnOrder;
+        private Integer dependentTurnOrder;
+        private String creditorName;
+        private String dependentName;
+    }
+
     @Getter
     @Builder
     @AllArgsConstructor
@@ -130,6 +150,8 @@ public class GameStateResponse {
         private Long balance;
         private Boolean isBot;
         private Boolean isBankrupt;
+        /** Khi team-up: tất cả thành viên dùng chung màu theo turnOrder của đội trưởng. */
+        private Integer teamOwnerTurnOrder;
         /** Tên hiển thị (username hoặc Bot). */
         private String username;
         /** Ảnh đại diện tài khoản — dùng sảnh / thẻ người chơi. */

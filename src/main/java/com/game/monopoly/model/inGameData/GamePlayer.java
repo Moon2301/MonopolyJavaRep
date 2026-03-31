@@ -72,4 +72,17 @@ public class GamePlayer {
      */
     @Column(name = "end_match_coin_reward")
     private Integer endMatchCoinReward;
+
+    /**
+     * Khi team-up: phần tử "phụ thuộc" sẽ trỏ về id người chơi làm đội trưởng (người chia pool tiền/tài sản).
+     * Với đội trưởng thì {@code teamOwnerGamePlayerId} = chính id của họ.
+     */
+    @Column(name = "team_owner_game_player_id")
+    private Long teamOwnerGamePlayerId;
+
+    /**
+     * Id người chơi còn lại trong team (chỉ có 1 phụ thuộc nên tối đa là 1 partner).
+     */
+    @Column(name = "team_partner_game_player_id")
+    private Long teamPartnerGamePlayerId;
 }
